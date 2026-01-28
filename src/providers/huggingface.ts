@@ -12,7 +12,7 @@ import {
 
 // API URLs
 const ZIMAGE_TURBO_BASE_API_URL = "https://luca115-z-image-turbo.hf.space";
-const ZIMAGE_BASE_API_URL = "https://multimodalart-z-image.hf.space";
+const ZIMAGE_BASE_API_URL = "https://victor-z-image-mcp.hf.space";
 const QWEN_IMAGE_BASE_API_URL = "https://mcp-tools-qwen-image-fast.hf.space";
 const OVIS_IMAGE_BASE_API_URL = "https://aidc-ai-ovis-image-7b.hf.space";
 const FLUX_SCHNELL_BASE_API_URL =
@@ -34,21 +34,21 @@ const ZIMAGE_NEGATIVE_PROMPT =
 function getZImageResolution(ar: string): string {
   switch (ar) {
     case "1:1":
-      return "1280x1280 ( 1:1 )";
+      return "1024x1024 ( 1:1 )";
     case "4:3":
-      return "1472x1104 ( 4:3 )";
+      return "1152x864 ( 4:3 )";
     case "3:4":
-      return "1104x1472 ( 3:4 )";
+      return "864x1152 ( 3:4 )";
     case "3:2":
-      return "1536x1024 ( 3:2 )";
+      return "1248x832 ( 3:2 )";
     case "2:3":
-      return "1024x1536 ( 2:3 )";
+      return "832x1248 ( 2:3 )";
     case "16:9":
-      return "1536x864 ( 16:9 )";
+      return "1280x720 ( 16:9 )";
     case "9:16":
-      return "864x1536 ( 9:16 )";
+      return "720x1280 ( 9:16 )";
     default:
-      return "1280x1280 ( 1:1 )";
+      return "1024x1024 ( 1:1 )";
   }
 }
 
@@ -211,7 +211,6 @@ export class HuggingFaceProvider extends BaseProvider {
           guidance || 4,
           false, // CFG Normalization
           false, // Random Seed
-          [],
         ];
         endpoint = "generate";
       } else if (modelId === "flux-1-schnell") {
@@ -260,22 +259,6 @@ export class HuggingFaceProvider extends BaseProvider {
       const eventData = extractCompleteEventData(result);
 
       if (!eventData) throw new Error("Invalid response from Hugging Face");
-
-      // Z-Image 模型的响应格式特殊处理
-      if (modelId === "z-image") {
-        // eventData 格式: [[{"image": {"url": "..."}, ...}], "seed_string", seed_number]
-        if (!eventData[0] || !eventData[0][0] || !eventData[0][0].image?.url) {
-          throw new Error("Invalid response format from Z-Image");
-        }
-        return {
-          url: eventData[0][0].image.url,
-          width,
-          height,
-          seed: eventData[2] || finalSeed, // 使用返回的 seed 或原始 seed
-          steps,
-          guidance,
-        };
-      }
 
       // 其他模型的标准响应格式
       return {
