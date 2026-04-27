@@ -1,6 +1,9 @@
 import type { Context } from "hono";
 import { BaseProvider, type ModelConfig } from "./base";
-import { runWithTokenRetry, encryptTokenForStorage } from "../api/token-manager";
+import {
+  runWithTokenRetry,
+  encryptTokenForStorage,
+} from "../api/token-manager";
 import {
   uploadToGradio,
   processFileUpload,
@@ -13,7 +16,7 @@ const DEFAULT_GROK_API_BASE = "https://api.x.ai/v1";
 
 // 用于图片编辑时上传图片获取可公开访问 URL 的 Gradio 服务地址
 const GRADIO_UPLOAD_BASE_URL =
-  "https://linoyts-qwen-image-edit-2509-fast.hf.space";
+  "https://linoyts-qwen-image-edit-2511-fast.hf.space";
 
 /**
  * Grok (xAI) Provider
@@ -201,7 +204,7 @@ export class GrokProvider extends BaseProvider {
         env,
         GRADIO_UPLOAD_BASE_URL,
         null,
-        (path) => `${GRADIO_UPLOAD_BASE_URL}/gradio_api/file=${path}`
+        (path) => `${GRADIO_UPLOAD_BASE_URL}/gradio_api/file=${path}`,
       );
 
       const response = await fetchWithTimeout(

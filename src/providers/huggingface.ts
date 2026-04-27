@@ -23,7 +23,7 @@ const OVIS_IMAGE_BASE_API_URL = "https://aidc-ai-ovis-image-7b.hf.space";
 const FLUX_SCHNELL_BASE_API_URL =
   "https://black-forest-labs-flux-1-schnell.hf.space";
 const QWEN_IMAGE_EDIT_BASE_API_URL =
-  "https://linoyts-qwen-image-edit-2509-fast.hf.space";
+  "https://linoyts-qwen-image-edit-2511-fast.hf.space";
 const POLLINATIONS_API_URL = "https://text.pollinations.ai/openai";
 const WAN2_VIDEO_API_URL =
   "https://fradeck619-wan2-2-fp8da-aoti-faster.hf.space";

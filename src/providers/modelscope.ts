@@ -16,7 +16,7 @@ const MS_CHAT_API_URL =
   "https://api-inference.modelscope.cn/v1/chat/completions";
 const MS_TASK_API_BASE_URL = "https://api-inference.modelscope.cn/v1/tasks";
 const QWEN_IMAGE_EDIT_BASE_API_URL =
-  "https://linoyts-qwen-image-edit-2509-fast.hf.space";
+  "https://linoyts-qwen-image-edit-2511-fast.hf.space";
 
 /**
  * Model Scope Provider

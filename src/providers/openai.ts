@@ -1,6 +1,9 @@
 import type { Context } from "hono";
 import { BaseProvider, type ModelConfig } from "./base";
-import { runWithTokenRetry, encryptTokenForStorage } from "../api/token-manager";
+import {
+  runWithTokenRetry,
+  encryptTokenForStorage,
+} from "../api/token-manager";
 import {
   DEFAULT_SYSTEM_PROMPT_CONTENT,
   FIXED_SYSTEM_PROMPT_SUFFIX,
@@ -32,10 +35,19 @@ export class OpenAIProvider extends BaseProvider {
   getModelConfigs(): Record<string, { apiId: string; config: ModelConfig }> {
     return {
       // === 图片生成/编辑模型（GPT Image 系列）===
-      "gpt-image-1.5-2025-12-16": {
-        apiId: "gpt-image-1.5-2025-12-16",
+      "gpt-image-2": {
+        apiId: "gpt-image-2",
         config: {
-          id: "openai/gpt-image-1.5-2025-12-16",
+          id: "openai/gpt-image-2",
+          name: "GPT Image 2",
+          type: ["text2image", "image2image"],
+          responseType: "base64",
+        },
+      },
+      "gpt-image-1.5": {
+        apiId: "gpt-image-1.5",
+        config: {
+          id: "openai/gpt-image-1.5",
           name: "GPT Image 1.5",
           type: ["text2image", "image2image"],
           responseType: "base64",
@@ -50,8 +62,15 @@ export class OpenAIProvider extends BaseProvider {
           responseType: "base64",
         },
       },
-
-      // === 文本生成模型（GPT-5.4 系列）===
+      // === 文本生成模型（GPT-5.5 系列）===
+      "gpt-5.5": {
+        apiId: "gpt-5.5",
+        config: {
+          id: "openai/gpt-5.5",
+          name: "GPT-5.5",
+          type: ["text2text"],
+        },
+      },
       "gpt-5.4": {
         apiId: "gpt-5.4",
         config: {
@@ -421,7 +440,9 @@ export class OpenAIProvider extends BaseProvider {
 
       if (imageUrl) {
         // image2video 模式：下载图片并作为 input_reference 追加
-        const imageResponse = await fetchWithTimeout(imageUrl, { timeout: TIMEOUT.DEFAULT });
+        const imageResponse = await fetchWithTimeout(imageUrl, {
+          timeout: TIMEOUT.DEFAULT,
+        });
         if (!imageResponse.ok) {
           throw new Error(`Failed to download image: ${imageResponse.status}`);
         }
